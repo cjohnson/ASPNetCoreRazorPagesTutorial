@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using ASPNetCoreRazorPagesTutorial.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<ASPNetCoreRazorPagesTutorialContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ASPNetCoreRazorPagesTutorialContext") ?? throw new InvalidOperationException("Connection string 'ASPNetCoreRazorPagesTutorialContext' not found.")));
 
 var app = builder.Build();
 
