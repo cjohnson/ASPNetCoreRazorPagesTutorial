@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ASPNetCoreRazorPagesTutorial.Data;
+using ASPNetCoreRazorPagesTutorial.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,12 @@ builder.Services.AddDbContext<ASPNetCoreRazorPagesTutorialContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ASPNetCoreRazorPagesTutorialContext") ?? throw new InvalidOperationException("Connection string 'ASPNetCoreRazorPagesTutorialContext' not found.")));
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
